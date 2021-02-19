@@ -132,11 +132,13 @@ int main(int argc, char** argv) {
   //
 #ifdef G4MULTITHREADED
   G4MTRunManager* runManager = new G4MTRunManager;
+  G4cout << "We are using G4MTRunManager ........ " << G4endl;
   if ( nThreads > 0 ) { 
     runManager->SetNumberOfThreads(nThreads);
   }
 #else
   G4RunManager* runManager = new G4RunManager;
+  G4cout << "We are using G4RunManager (not multi-threaded)........ " << G4endl;
 #endif
 
   //

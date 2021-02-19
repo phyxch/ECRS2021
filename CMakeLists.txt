@@ -2,7 +2,7 @@
 # Setup the project
 #
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
-project(ECRS2014)
+project(ECRS2021)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -33,8 +33,8 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(ECRS2014 ECRS.cc ${sources} ${headers})
-target_link_libraries(ECRS2014 ${Geant4_LIBRARIES}  /home/hexc/G4work/magnetocosmics/fortran/lib/libFortranMagField.a)
+add_executable(ECRS2021 ECRS.cc ${sources} ${headers})
+target_link_libraries(ECRS2021 ${Geant4_LIBRARIES}  /home/hexc/G4work/magnetocosmics/fortran/lib/libFortranMagField.a)
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
@@ -59,4 +59,4 @@ endforeach()
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
-install(TARGETS ECRS2014 DESTINATION bin)
+install(TARGETS ECRS2021 DESTINATION bin)

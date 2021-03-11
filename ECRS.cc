@@ -5,6 +5,7 @@
 //                      FTFP_BERT seems killing neutron tracking at low energies.
 //            6/12/2015, Hexc, Olesya: Modified for running ECRS in BNL RCF nodes.
 //            1/14/2021, Hexc, Jarred and Marcus: update the ECRS simulation for the newer GEANT4 release and Linux OS
+//            2/25/2021, Hexc, Jarred, Marcus, Zachary, Jack, Ernesto: Added a command line option for number of threads to run.
 //
 #include "G4Types.hh"
 
@@ -133,9 +134,10 @@ int main(int argc, char** argv) {
 #ifdef G4MULTITHREADED
   G4MTRunManager* runManager = new G4MTRunManager;
   G4cout << "We are using G4MTRunManager ........ " << G4endl;
-  if ( nThreads > 0 ) { 
-    runManager->SetNumberOfThreads(nThreads);
-  }
+  // if ( nThreads > 0 ) {
+  //  G4cout << " argv[2] : " << argv[1] << G4endl;
+  runManager->SetNumberOfThreads(8);
+  //  }
 #else
   G4RunManager* runManager = new G4RunManager;
   G4cout << "We are using G4RunManager (not multi-threaded)........ " << G4endl;

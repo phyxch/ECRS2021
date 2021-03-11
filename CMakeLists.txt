@@ -34,7 +34,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(ECRS2021 ECRS.cc ${sources} ${headers})
-target_link_libraries(ECRS2021 ${Geant4_LIBRARIES}  /home/hexc/G4work/magnetocosmics/fortran/lib/libFortranMagField.a)
+target_link_libraries(ECRS2021 ${Geant4_LIBRARIES}  /home/xhe/G4work/magnetocosmics/fortran/lib/libFortranMagField.a)
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we

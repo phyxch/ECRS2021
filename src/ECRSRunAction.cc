@@ -2,17 +2,20 @@
 //    analysis.
 // Dec 8, 2014: Hexc, Olesya - Adding code to write root output for hits arriving at
 //    the syrface of the Earth
+// Mar 16, 2021: Hexc - Modified the code for ECRS2021 version and with multi-threaded running optopn
+// 
 //
 #include "ECRSRunAction.hh"
 
 #include "G4Run.hh"
-#include "G4UImanager.hh"
-#include "G4VVisManager.hh"
+//#include "G4UImanager.hh"
+//#include "G4VVisManager.hh"
 #include "G4ios.hh"
 
 #include "g4root.hh"
 
 ECRSRunAction::ECRSRunAction()
+  : G4UserRunAction()
 {;}
 
 ECRSRunAction::~ECRSRunAction()
@@ -25,23 +28,20 @@ void ECRSRunAction::BeginOfRunAction(const G4Run* aRun)
   // Book histograms, ntuple
   
   // Create analysis manager
-  // The choice of analysis technology is done via selection of a namespace
-  // in Analysis.hh
-
+ 
   G4cout << "##### Create ECRS analysis manager " << "  " << this << G4endl;
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
   
   G4cout << "Using " << analysisManager->GetType() << " analysis manager" << G4endl;
 
-  // Create directories 
-  
+  // Create directories  
   //analysisManager->SetHistoDirectoryName("histograms");
   //analysisManager->SetNtupleDirectoryName("ntuple");
   analysisManager->SetVerboseLevel(1);
   
   // Open an output file
   
-  G4String fileName = "ECRS2014_Shower";
+  G4String fileName = "ECRS2021_Shower";
   analysisManager->OpenFile(fileName);
 
   analysisManager->SetFirstNtupleId(1);

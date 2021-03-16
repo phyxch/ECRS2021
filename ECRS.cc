@@ -6,16 +6,23 @@
 //            6/12/2015, Hexc, Olesya: Modified for running ECRS in BNL RCF nodes.
 //            1/14/2021, Hexc, Jarred and Marcus: update the ECRS simulation for the newer GEANT4 release and Linux OS
 //            2/25/2021, Hexc, Jarred, Marcus, Zachary, Jack, Ernesto: Added a command line option for number of threads to run.
+//            3/16/2021, Hexc: Update the code for running batch mode
 //
 #include "G4Types.hh"
 
+/*
 #ifdef G4MULTITHREADED
 #include "G4MTRunManager.hh"
 #else
 #include "G4RunManager.hh"
 #endif
+*/
+#include "G4RunManagerFactory.hh"
 
 #include "G4UImanager.hh"
+#include "G4VisExecutive.hh"
+#include "G4UIExecutive.hh"
+
 #include "Randomize.hh"
 
 // 4/5/2015
@@ -24,9 +31,6 @@
 #include "G4PhysListFactory.hh"
 #include "G4OpticalPhysics.hh"
 //#include "FPPhysicsList.hh"
-
-#include "G4VisExecutive.hh"
-#include "G4UIExecutive.hh"
 
 #include <time.h> 
 
@@ -87,8 +91,8 @@ int main(int argc, char** argv) {
   
   srand(time(NULL));
   
-  G4cout << "Open output file (as a singleton) ... " << G4endl;
-  ECRSSingleton* myOut = ECRSSingleton::instance();
+  //  G4cout << "Open output file (as a singleton) ... " << G4endl;
+  // ECRSSingleton* myOut = ECRSSingleton::instance();
   //  char Ofilename[100];
   //  G4int seed_index=10;
 
@@ -115,7 +119,7 @@ int main(int argc, char** argv) {
   }
 
   //myOut->Fopen("Cosmic_Output.dat");
-  G4cout << "Just opened the output file ********* " << G4endl;
+  //G4cout << "Just opened the output file ********* " << G4endl;
   
   // Select the RanecuEngine random number generator with seeds defined above
   
@@ -125,6 +129,9 @@ int main(int argc, char** argv) {
   Myseeds[0] = (int)rand();
   Myseeds[1] = (int)rand(); 
   CLHEP::HepRandom::setTheSeeds(Myseeds,seed_index);
+
+
+  /*
   
   //
   // Run manager (with multithreaded option)
@@ -143,6 +150,13 @@ int main(int argc, char** argv) {
   G4cout << "We are using G4RunManager (not multi-threaded)........ " << G4endl;
 #endif
 
+  */
+  
+  // Construct the default run manager
+  //
+  auto* runManager =
+    G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
+  
   //
   // Mandatory initialization classes
   //
@@ -194,63 +208,34 @@ int main(int argc, char** argv) {
   //  opticalPhysics->SetMaxBetaChangePerStep(10.0);
   
   //  phys->RegisterPhysics(opticalPhysics);
+  
   phys->DumpList();
 
   runManager->SetUserInitialization(phys);
 
   runManager->SetUserInitialization(new ECRSActionInitialization(detector));
+
+  // Commented out on 3/16/2021
+  //  G4ProcessTable::GetProcessTable()->SetProcessActivation("MYTransportation",false);
+  //  G4ProcessTable::GetProcessTable()->SetProcessActivation("Transportation",true);
+
   
-  //runManager->Initialize(); 
-  //G4cout << " I am here ... " << G4endl;
-    
-  G4ProcessTable::GetProcessTable()->SetProcessActivation("MYTransportation",false);
-  G4ProcessTable::GetProcessTable()->SetProcessActivation("Transportation",true);
-  
-  //#ifdef G4VIS_USE
-  // Visualization, if you choose to have it!
-  // Use geant4 default visualization manager
-  //  G4VisManager* visManager = new ECRSVisManager;
+  // Initialize visualization manager
   G4VisManager* visManager = new G4VisExecutive;
   G4cout << "Initializing visualization manatger ... " << G4endl;
   visManager->Initialize();
-  //#endif
-
+  
+  
   // Detect interactive mode (if no arguments) and define UI session
   //
   G4UIExecutive* ui = 0;
   if ( argc == 1 ) {
     ui = new G4UIExecutive(argc, argv);
   }
-  
-  /*
 
-  //  G4UIsession* session = 0;
-  G4UIExecutive* session = 0;
-
-  //User interactions  
-  G4UImanager* UI = G4UImanager::GetUIpointer();
-  UI->ApplyCommand("/tracking/verbose 0");
-
-  if ((argc==1) || (argc ==2)) { 
-    session = new G4UIExecutive(argc, argv);
-    session->SessionStart();
-    delete session;
-  }
-  else {
-    G4String command = "/control/execute ";
-    G4String fileName = argv[2];
-    UI->ApplyCommand(command+fileName);
-    
-    session = new G4UIExecutive(argc, argv);
-    //session->SessionStart();
-    delete session;
-  }
-
-  */
-
-    // Get the pointer to the User Interface manager
+  // Get the pointer to the User Interface manager
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
-
+  
   // Activate score ntuple writer
   // The Root output type (Root) is selected in B3Analysis.hh.
   // The verbose level can be also set via UI commands
@@ -262,8 +247,9 @@ int main(int argc, char** argv) {
   //
   if ( ! ui ) {
     // batch mode
+    G4cout << " I am here " << G4endl;
     G4String command = "/control/execute ";
-    G4String fileName = argv[1];
+    G4String fileName = argv[2];               // running macro file 
     UImanager->ApplyCommand(command+fileName);
   }
   else {
@@ -283,7 +269,7 @@ int main(int argc, char** argv) {
   
   G4cout << "RunManager deleted." << G4endl;
   
-  myOut->Fclose();
+  //myOut->Fclose();
   
   return 0;
 }

@@ -3,7 +3,8 @@
 // Dec 8, 2014: Hexc, Olesya - Adding code to write root output for hits arriving at
 //    the syrface of the Earth
 // Mar 16, 2021: Hexc - Modified the code for ECRS2021 version and with multi-threaded running optopn
-// 
+//
+// 9/20/2023: Hexc - replaced g4root.hh with G4AnalysisManager.hh
 //
 #include "ECRSRunAction.hh"
 
@@ -11,8 +12,8 @@
 //#include "G4UImanager.hh"
 //#include "G4VVisManager.hh"
 #include "G4ios.hh"
-
-#include "g4root.hh"
+#include "G4AnalysisManager.hh"
+//#include "g4root.hh"
 
 ECRSRunAction::ECRSRunAction()
   : G4UserRunAction()
@@ -41,7 +42,7 @@ void ECRSRunAction::BeginOfRunAction(const G4Run* aRun)
   
   // Open an output file
   
-  G4String fileName = "ECRS2021_Shower";
+  G4String fileName = "ECRS2021_Shower.root";
   analysisManager->OpenFile(fileName);
 
   analysisManager->SetFirstNtupleId(1);

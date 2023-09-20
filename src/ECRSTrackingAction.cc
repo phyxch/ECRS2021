@@ -6,14 +6,17 @@
 // 12/1/2014: Hexc, Olesya - Add "(aTrack->GetParentID() != 0)" condition for not writing out
 //    the track info of the incident (i.e. primary) particle
 // 2/12/2015: Hexc, Olesya - Add event ID into the output ntuple. Removed altitude calculation.
+// 9/20/2023: Hexc - replaced g4root.hh with G4AnalysisManager.hh
+
 #include "ECRSTrackingAction.hh"
 #include "ECRSTrackingMessenger.hh"
 
 #include "G4UserTrackingAction.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4UnitsTable.hh"
+#include "G4AnalysisManager.hh"
 
-#include "g4root.hh"
+//#include "g4root.hh"
 
 using namespace CLHEP;
 

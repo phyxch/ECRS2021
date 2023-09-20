@@ -4,7 +4,8 @@
 // 2/11/2015: Hexc, Olesya - Add eventAction and the primaryGeneratorAction in order to 
 //              output the event number and the primary particle info.
 // 4/28/2015: Hexc, Olesya - Add aTrack->SetTrackStatus(fStopAndKill); when the hit is below the surface.
-// 10/31/2017: Hexc - Stop tracking a particle after 10 seconds. 
+// 10/31/2017: Hexc - Stop tracking a particle after 10 seconds.
+// 9/20/2023: Hexc - replaced g4root.hh with G4AnalysisManager.hh
 //
 #include "ECRSSteppingAction.hh"
 #include "ECRSSteppingMessenger.hh"
@@ -16,8 +17,9 @@
 #include "G4VPhysicalVolume.hh"
 #include "G4Track.hh"
 #include "G4ThreeVector.hh"
+#include "G4AnalysisManager.hh"
 
-#include "g4root.hh"
+//#include "g4root.hh"
 
 using namespace CLHEP;
 

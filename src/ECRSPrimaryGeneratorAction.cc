@@ -4,6 +4,7 @@
 //   direction of the primary particles
 // 12/1/2014, Hexc, Olesya: Fixed a bug in setting the starting position
 // 3/11/2015, Hexc, Olesya: Add code to store primary particle info into a ntuple
+// 9/20/2023: Hexc - replaced g4root.hh with G4AnalysisManager.hh
 //
 #include "ECRSPrimaryGeneratorAction.hh"
 #include "ECRSPrimaryGeneratorMessenger.hh"
@@ -19,8 +20,9 @@
 #include "Randomize.hh"
 #include "G4RunManager.hh"
 #include "G4UnitsTable.hh"
+#include "G4AnalysisManager.hh"
 
-#include "g4root.hh"
+//#include "g4root.hh"
 
 using namespace CLHEP;
 
